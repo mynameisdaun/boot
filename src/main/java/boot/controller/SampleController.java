@@ -18,7 +18,7 @@ import java.util.stream.IntStream;
 @Log4j2
 public class SampleController {
 
-    @GetMapping({"/exLayout1","/exLayout2"})
+    @GetMapping({"/exLayout1","/exLayout2","/exTemplate","/exSidebar"})
     public void exLayout1() {
         log.info("exLayout...");
     }
