@@ -34,7 +34,12 @@ public class PageResultDTO<DTO, EN> {
         this.page = pageable.getPageNumber()+1;
         this.size = pageable.getPageSize();
 
+        System.out.println("size: "+this.size);
+
         int tempEnd = (int)(Math.ceil(page/10.0))*10;
+
+        System.out.println("tempEnd: "+tempEnd);
+        System.out.println("totalPage: "+totalPage);
 
         start = tempEnd-9;
         prev = start > 1;

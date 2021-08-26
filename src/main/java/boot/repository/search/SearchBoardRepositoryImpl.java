@@ -60,6 +60,7 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         jpqlQuery.leftJoin(reply).on(reply.board.eq(board));
 
         JPQLQuery<Tuple> tuple = jpqlQuery.select(board,member,reply.count());
+        JPQLQuery<Tuple> tuple2 = jpqlQuery.select(board,member,reply.count());
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         BooleanExpression expression = board.bno.gt(0L);
@@ -96,16 +97,17 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
                     tuple.orderBy(new OrderSpecifier(direction,orderByExpression.get(prop)));
                 });
         tuple.groupBy(board.bno,member.email,board.modDate,board.regDate,board.content,board.title,board.writer.email,member.modDate,member.regDate,member.name,member.password);
+
+        /* for total */
+        List<Tuple> result = tuple.fetch();
+        long count = result.size();
+        log.info("COUNT: "+count);
+
         tuple.offset(pageable.getOffset());
         tuple.limit(pageable.getPageSize());
 
-        List<Tuple> result = tuple.fetch();
-
+        result = tuple.fetch();
         log.info(result);
-
-        long count = result.size();
-
-        log.info("COUNT: "+count);
 
         return new PageImpl<Object[]>(result.stream().map(t -> t.toArray()).collect(Collectors.toList()),pageable,count);
 
