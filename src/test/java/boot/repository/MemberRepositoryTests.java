@@ -19,7 +19,7 @@ public class MemberRepositoryTests {
             Member member = Member.builder()
                     .email("user"+i+ "@aaa.com")
                     .password("1111")
-                    .name("user"+i)
+                    .nickname("reviewer"+i)
                     .build();
             memberRepository.save(member);
         });
